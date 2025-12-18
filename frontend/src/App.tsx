@@ -1,7 +1,8 @@
 import React, { useMemo, useState } from "react";
 import axios from "axios";
-import { BookOpen, Brain, Sparkles, BarChart3, ChevronRight, Loader2 } from "lucide-react";
+import { BookOpen, Brain, Sparkles, BarChart3, ChevronRight, Loader2, Sun, Moon } from "lucide-react";
 import { AnalyticsPanel } from "./components/AnalyticsPanel";
+import { useTheme } from "./hooks/useTheme";
 import {
   Difficulty,
   EvaluationResponse,
@@ -22,6 +23,7 @@ const difficultyLabels: Record<Difficulty, string> = {
 const subjects = ["Mathematics", "Physics", "Biology", "Chemistry", "History", "Computer Science"];
 
 const App: React.FC = () => {
+  const { theme, toggleTheme } = useTheme();
   const [subject, setSubject] = useState<string>("Mathematics");
   const [difficulty, setDifficulty] = useState<Difficulty>("easy");
   const [currentQuestion, setCurrentQuestion] = useState<QuestionResponse | null>(null);
@@ -121,30 +123,43 @@ const App: React.FC = () => {
   const isMCQ = currentQuestion?.type === "multiple-choice";
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-slate-50">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 text-slate-900 dark:text-slate-50 transition-colors duration-200">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-6 sm:py-10">
         {/* Header */}
         <header className="mb-6 sm:mb-10">
-          <div className="flex items-center gap-3 mb-2">
-            <div className="h-10 w-10 rounded-2xl bg-gradient-to-br from-primary-500 to-accent-500 flex items-center justify-center shadow-lg shadow-primary-500/40">
-              <Brain className="w-6 h-6 text-white" />
+          <div className="flex items-center justify-between mb-2">
+            <div className="flex items-center gap-3">
+              <div className="h-10 w-10 rounded-2xl bg-gradient-to-br from-primary-500 to-accent-500 flex items-center justify-center shadow-lg shadow-primary-500/40">
+                <Brain className="w-6 h-6 text-white" />
+              </div>
+              <div>
+                <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight text-slate-900 dark:text-slate-50">
+                  AI Exam Prep Assistant
+                </h1>
+                <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300">
+                  Generate smart questions, practice actively, and get instant feedback powered by AI.
+                </p>
+              </div>
             </div>
-            <div>
-              <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight text-slate-50">
-                AI Exam Prep Assistant
-              </h1>
-              <p className="text-sm sm:text-base text-slate-300">
-                Generate smart questions, practice actively, and get instant feedback powered by AI.
-              </p>
-            </div>
+            <button
+              onClick={toggleTheme}
+              className="p-2.5 rounded-xl bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-700 transition-colors duration-200"
+              aria-label="Toggle theme"
+            >
+              {theme === "dark" ? (
+                <Sun className="w-5 h-5 text-slate-700 dark:text-slate-200" />
+              ) : (
+                <Moon className="w-5 h-5 text-slate-700 dark:text-slate-200" />
+              )}
+            </button>
           </div>
-          <div className="flex flex-wrap items-center gap-2 text-xs text-slate-400">
-            <span className="inline-flex items-center gap-1 rounded-full bg-slate-900/70 border border-slate-700 px-3 py-1">
-              <Sparkles className="w-3 h-3 text-primary-400" />
+          <div className="flex flex-wrap items-center gap-2 text-xs text-slate-700 dark:text-slate-400">
+            <span className="inline-flex items-center gap-1 rounded-full bg-slate-100 dark:bg-slate-900/70 border border-slate-300 dark:border-slate-700 px-3 py-1 text-slate-700 dark:text-slate-300">
+              <Sparkles className="w-3 h-3 text-primary-600 dark:text-primary-400" />
               Adaptive learning insights
             </span>
-            <span className="inline-flex items-center gap-1 rounded-full bg-slate-900/70 border border-slate-700 px-3 py-1">
-              <BookOpen className="w-3 h-3 text-accent-400" />
+            <span className="inline-flex items-center gap-1 rounded-full bg-slate-100 dark:bg-slate-900/70 border border-slate-300 dark:border-slate-700 px-3 py-1 text-slate-700 dark:text-slate-300">
+              <BookOpen className="w-3 h-3 text-accent-600 dark:text-accent-400" />
               Multiple subjects & difficulties
             </span>
           </div>
@@ -154,18 +169,18 @@ const App: React.FC = () => {
           {/* Left: controls + question */}
           <section className="flex flex-col gap-4">
             {/* Control panel */}
-            <div className="rounded-2xl bg-slate-900/70 border border-slate-800 shadow-lg shadow-slate-900/40 p-4 sm:p-5 flex flex-col gap-4">
+            <div className="rounded-2xl bg-white dark:bg-slate-900/70 border border-slate-200 dark:border-slate-800 shadow-lg shadow-slate-200/40 dark:shadow-slate-900/40 p-4 sm:p-5 flex flex-col gap-4">
               <div className="flex items-center justify-between gap-3">
                 <div>
-                  <p className="text-xs font-semibold text-slate-400 uppercase tracking-wide">
+                  <p className="text-xs font-semibold text-slate-700 dark:text-slate-400 uppercase tracking-wide">
                     Session Controls
                   </p>
-                  <p className="text-sm text-slate-300">
+                  <p className="text-sm text-slate-800 dark:text-slate-300">
                     Choose your subject and difficulty, then generate tailored questions.
                   </p>
                 </div>
                 <BarChart3
-                  className="w-5 h-5 text-slate-400 cursor-pointer hover:text-primary-300 transition"
+                  className="w-5 h-5 text-slate-700 dark:text-slate-400 cursor-pointer hover:text-primary-600 dark:hover:text-primary-300 transition"
                   onClick={() => setShowAnalytics((prev) => !prev)}
                 />
               </div>
@@ -173,14 +188,14 @@ const App: React.FC = () => {
               <div className="grid sm:grid-cols-2 gap-4">
                 {/* Subject */}
                 <div className="flex flex-col gap-2">
-                  <label className="text-xs font-semibold text-slate-300 uppercase tracking-wide">
+                  <label className="text-xs font-semibold text-slate-800 dark:text-slate-300 uppercase tracking-wide">
                     Subject
                   </label>
                   <div className="relative">
                     <select
                       value={subject}
                       onChange={(e) => setSubject(e.target.value)}
-                      className="w-full rounded-xl bg-slate-950/70 border border-slate-700/80 px-3 py-2.5 text-sm text-slate-100 focus:outline-none focus:ring-2 focus:ring-primary-500/70 focus:border-primary-400 transition"
+                      className="w-full rounded-xl bg-white dark:bg-slate-950/70 border border-slate-300 dark:border-slate-700/80 px-3 py-2.5 text-sm text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-primary-500/70 focus:border-primary-500 dark:focus:border-primary-400 transition"
                     >
                       {subjects.map((s) => (
                         <option key={s} value={s}>
@@ -188,13 +203,13 @@ const App: React.FC = () => {
                         </option>
                       ))}
                     </select>
-                    <ChevronRight className="w-4 h-4 text-slate-500 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                    <ChevronRight className="w-4 h-4 text-slate-500 dark:text-slate-500 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
                   </div>
                 </div>
 
                 {/* Difficulty */}
                 <div className="flex flex-col gap-2">
-                  <label className="text-xs font-semibold text-slate-300 uppercase tracking-wide">
+                  <label className="text-xs font-semibold text-slate-800 dark:text-slate-300 uppercase tracking-wide">
                     Difficulty
                   </label>
                   <div className="grid grid-cols-3 gap-2">
@@ -208,8 +223,8 @@ const App: React.FC = () => {
                           className={[
                             "text-xs font-medium rounded-xl px-2.5 py-2 border transition flex items-center justify-center",
                             isActive
-                              ? "bg-primary-600 text-white border-primary-400 shadow-md shadow-primary-500/40"
-                              : "bg-slate-950/60 text-slate-300 border-slate-700 hover:border-primary-500/60 hover:text-primary-100",
+                              ? "bg-primary-600 text-white border-primary-500 dark:border-primary-400 shadow-md shadow-primary-500/40"
+                              : "bg-white dark:bg-slate-950/60 text-slate-800 dark:text-slate-300 border-slate-300 dark:border-slate-700 hover:border-primary-500 hover:bg-primary-50 dark:hover:bg-slate-900/80 hover:text-primary-700 dark:hover:text-primary-100",
                           ].join(" ")}
                         >
                           {difficultyLabels[level]}
@@ -221,7 +236,7 @@ const App: React.FC = () => {
               </div>
 
               <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
-                <p className="text-xs text-slate-400">
+                <p className="text-xs text-slate-700 dark:text-slate-400">
                   Questions are generated dynamically based on your selected subject and difficulty.
                 </p>
                 <button
@@ -246,17 +261,17 @@ const App: React.FC = () => {
             </div>
 
             {/* Question & answer panel */}
-            <div className="rounded-2xl bg-slate-950/70 border border-slate-800 shadow-xl shadow-slate-950/40 p-4 sm:p-5 flex flex-col gap-4">
+            <div className="rounded-2xl bg-white dark:bg-slate-950/70 border border-slate-200 dark:border-slate-800 shadow-xl shadow-slate-200/40 dark:shadow-slate-950/40 p-4 sm:p-5 flex flex-col gap-4">
               <div className="flex items-center justify-between gap-2">
                 <div>
-                  <p className="text-xs font-semibold text-slate-400 uppercase tracking-wide">
+                  <p className="text-xs font-semibold text-slate-700 dark:text-slate-400 uppercase tracking-wide">
                     Active Question
                   </p>
-                  <p className="text-sm text-slate-300">
+                  <p className="text-sm text-slate-800 dark:text-slate-300">
                     Answer the question, then submit to see how you performed.
                   </p>
                 </div>
-                <span className="text-[11px] rounded-full border border-slate-700/80 px-2 py-1 text-slate-300 bg-slate-900/70">
+                <span className="text-[11px] rounded-full border border-slate-300 dark:border-slate-700/80 px-2 py-1 text-slate-800 dark:text-slate-300 bg-slate-100 dark:bg-slate-900/70 font-medium">
                   {currentQuestion ? (
                     <>
                       {currentQuestion.type === "multiple-choice" ? "Multiple Choice" : "Short Answer"} •{" "}
@@ -269,38 +284,38 @@ const App: React.FC = () => {
               </div>
 
               {error && (
-                <div className="rounded-xl border border-red-500/40 bg-red-950/40 px-3 py-2 text-xs text-red-200">
+                <div className="rounded-xl border border-red-500 dark:border-red-500/40 bg-red-50 dark:bg-red-950/40 px-3 py-2 text-xs text-red-800 dark:text-red-200 font-medium">
                   {error}
                 </div>
               )}
 
               {!currentQuestion ? (
-                <div className="rounded-2xl border border-dashed border-slate-700/80 bg-slate-900/40 p-4 flex flex-col items-center justify-center text-center gap-3">
-                  <BookOpen className="w-9 h-9 text-slate-500" />
-                  <p className="text-sm font-medium text-slate-200">
+                <div className="rounded-2xl border border-dashed border-slate-300 dark:border-slate-700/80 bg-slate-50 dark:bg-slate-900/40 p-4 flex flex-col items-center justify-center text-center gap-3">
+                  <BookOpen className="w-9 h-9 text-slate-500 dark:text-slate-500" />
+                  <p className="text-sm font-medium text-slate-800 dark:text-slate-200">
                     Ready to start practicing?
                   </p>
-                  <p className="text-xs text-slate-400 max-w-md">
+                  <p className="text-xs text-slate-700 dark:text-slate-400 max-w-md">
                     Select a subject and difficulty, then click{" "}
-                    <span className="font-semibold text-primary-300">Generate Question</span> to begin your
+                    <span className="font-semibold text-primary-600 dark:text-primary-300">Generate Question</span> to begin your
                     personalized exam prep session.
                   </p>
                 </div>
               ) : (
                 <>
                   {/* Question */}
-                  <div className="rounded-2xl bg-slate-900/70 border border-slate-800 p-4 flex flex-col gap-2">
-                    <p className="text-xs font-semibold text-primary-300 uppercase tracking-wide">
+                  <div className="rounded-2xl bg-slate-50 dark:bg-slate-900/70 border border-slate-200 dark:border-slate-800 p-4 flex flex-col gap-2">
+                    <p className="text-xs font-semibold text-primary-600 dark:text-primary-300 uppercase tracking-wide">
                       Question
                     </p>
-                    <p className="text-sm sm:text-base text-slate-50 leading-relaxed">
+                    <p className="text-sm sm:text-base text-slate-900 dark:text-slate-50 leading-relaxed font-medium">
                       {currentQuestion.question}
                     </p>
                   </div>
 
                   {/* Answer */}
                   <div className="flex flex-col gap-3">
-                    <p className="text-xs font-semibold text-slate-300 uppercase tracking-wide">
+                    <p className="text-xs font-semibold text-slate-800 dark:text-slate-300 uppercase tracking-wide">
                       Your Answer
                     </p>
                     {isMCQ ? (
@@ -324,12 +339,12 @@ const App: React.FC = () => {
                               className={[
                                 "w-full text-left rounded-xl border px-3 py-2.5 text-sm transition",
                                 isCorrectSelected
-                                  ? "border-emerald-400 bg-emerald-950/50 text-emerald-100"
+                                  ? "border-emerald-500 dark:border-emerald-400 bg-emerald-50 dark:bg-emerald-950/50 text-emerald-900 dark:text-emerald-100"
                                   : isIncorrectSelected
-                                  ? "border-red-400 bg-red-950/40 text-red-100"
+                                  ? "border-red-500 dark:border-red-400 bg-red-50 dark:bg-red-950/40 text-red-900 dark:text-red-100"
                                   : isSelected
-                                  ? "border-primary-400 bg-primary-950/40 text-primary-100 shadow-md shadow-primary-500/30"
-                                  : "border-slate-700 bg-slate-950/40 text-slate-100 hover:border-primary-400/80 hover:bg-slate-900/80",
+                                  ? "border-primary-400 bg-primary-50 dark:bg-primary-950/40 text-primary-900 dark:text-primary-100 shadow-md shadow-primary-500/30"
+                                  : "border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-950/40 text-slate-900 dark:text-slate-100 hover:border-primary-400/80 hover:bg-slate-50 dark:hover:bg-slate-900/80",
                               ].join(" ")}
                             >
                               {opt}
@@ -342,7 +357,7 @@ const App: React.FC = () => {
                         value={textAnswer}
                         onChange={(e) => setTextAnswer(e.target.value)}
                         rows={4}
-                        className="w-full rounded-xl bg-slate-950/70 border border-slate-700/80 px-3 py-2.5 text-sm text-slate-100 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-primary-500/70 focus:border-primary-400 transition resize-none"
+                        className="w-full rounded-xl bg-white dark:bg-slate-950/70 border border-slate-300 dark:border-slate-700/80 px-3 py-2.5 text-sm text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-primary-500/70 focus:border-primary-500 dark:focus:border-primary-400 transition resize-none"
                         placeholder="Explain your answer clearly and concisely..."
                       />
                     )}
@@ -373,7 +388,7 @@ const App: React.FC = () => {
                       type="button"
                       onClick={handleNextQuestion}
                       disabled={isGenerating || !currentQuestion}
-                      className="inline-flex items-center justify-center rounded-xl border border-slate-700 bg-slate-900/70 text-sm font-medium px-4 py-2.5 text-slate-100 hover:border-primary-400/80 hover:text-primary-100 hover:bg-slate-900 transition disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="inline-flex items-center justify-center rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900/70 text-sm font-medium px-4 py-2.5 text-slate-800 dark:text-slate-100 hover:border-primary-500 hover:text-primary-700 dark:hover:text-primary-100 hover:bg-slate-50 dark:hover:bg-slate-900 transition disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       Next Question
                     </button>
@@ -382,39 +397,39 @@ const App: React.FC = () => {
                   {/* Evaluation */}
                   {evaluation && (
                     <div className="mt-1 grid md:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] gap-3">
-                      <div className="rounded-2xl bg-slate-900/80 border border-slate-800 p-3 sm:p-4 flex flex-col gap-2">
+                      <div className="rounded-2xl bg-slate-50 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 p-3 sm:p-4 flex flex-col gap-2">
                         <div className="flex items-center justify-between">
-                          <p className="text-xs font-semibold text-slate-300 uppercase tracking-wide">
+                          <p className="text-xs font-semibold text-slate-800 dark:text-slate-300 uppercase tracking-wide">
                             Evaluation
                           </p>
                           <span
                             className={[
                               "inline-flex items-center rounded-full px-2.5 py-1 text-[11px] font-semibold border",
                               evaluation.isCorrect
-                                ? "bg-emerald-950/60 border-emerald-500/70 text-emerald-100"
-                                : "bg-red-950/60 border-red-500/70 text-red-100",
+                                ? "bg-emerald-50 dark:bg-emerald-950/60 border-emerald-600 dark:border-emerald-500/70 text-emerald-800 dark:text-emerald-100"
+                                : "bg-red-50 dark:bg-red-950/60 border-red-600 dark:border-red-500/70 text-red-800 dark:text-red-100",
                             ].join(" ")}
                           >
                             {evaluation.isCorrect ? "Correct" : "Incorrect"}
                           </span>
                         </div>
-                        <p className="text-sm text-slate-200">{evaluation.feedback}</p>
-                        <p className="text-xs text-slate-400">
+                        <p className="text-sm text-slate-900 dark:text-slate-200 font-medium">{evaluation.feedback}</p>
+                        <p className="text-xs text-slate-700 dark:text-slate-400">
                           Score:{" "}
-                          <span className="font-semibold text-primary-300">
+                          <span className="font-semibold text-primary-700 dark:text-primary-300">
                             {evaluation.score}/100
                           </span>
                         </p>
                       </div>
 
-                      <div className="rounded-2xl bg-slate-900/80 border border-slate-800 p-3 sm:p-4 flex flex-col gap-2">
-                        <p className="text-xs font-semibold text-slate-300 uppercase tracking-wide">
+                      <div className="rounded-2xl bg-slate-50 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 p-3 sm:p-4 flex flex-col gap-2">
+                        <p className="text-xs font-semibold text-slate-800 dark:text-slate-300 uppercase tracking-wide">
                           Insights
                         </p>
                         {evaluation.strengths.length > 0 && (
-                          <div className="text-xs text-slate-200">
-                            <p className="font-semibold text-emerald-300 mb-1">Strengths</p>
-                            <ul className="list-disc list-inside space-y-0.5 text-slate-300">
+                          <div className="text-xs text-slate-900 dark:text-slate-200">
+                            <p className="font-semibold text-emerald-700 dark:text-emerald-300 mb-1">Strengths</p>
+                            <ul className="list-disc list-inside space-y-0.5 text-slate-800 dark:text-slate-300">
                               {evaluation.strengths.map((item) => (
                                 <li key={item}>{item}</li>
                               ))}
@@ -422,9 +437,9 @@ const App: React.FC = () => {
                           </div>
                         )}
                         {evaluation.improvements.length > 0 && (
-                          <div className="text-xs text-slate-200">
-                            <p className="font-semibold text-amber-300 mb-1">Focus Areas</p>
-                            <ul className="list-disc list-inside space-y-0.5 text-slate-300">
+                          <div className="text-xs text-slate-900 dark:text-slate-200">
+                            <p className="font-semibold text-amber-700 dark:text-amber-300 mb-1">Focus Areas</p>
+                            <ul className="list-disc list-inside space-y-0.5 text-slate-800 dark:text-slate-300">
                               {evaluation.improvements.map((item) => (
                                 <li key={item}>{item}</li>
                               ))}
@@ -433,16 +448,16 @@ const App: React.FC = () => {
                         )}
                       </div>
 
-                      <div className="md:col-span-2 rounded-2xl bg-slate-950/80 border border-slate-800 p-3 sm:p-4 flex flex-col gap-1.5">
-                        <p className="text-xs font-semibold text-slate-300 uppercase tracking-wide">
+                      <div className="md:col-span-2 rounded-2xl bg-slate-100 dark:bg-slate-950/80 border border-slate-200 dark:border-slate-800 p-3 sm:p-4 flex flex-col gap-1.5">
+                        <p className="text-xs font-semibold text-slate-800 dark:text-slate-300 uppercase tracking-wide">
                           Correct Answer & Explanation
                         </p>
-                        <p className="text-xs text-slate-200">
-                          <span className="font-semibold text-emerald-300">Correct Answer:</span>{" "}
+                        <p className="text-xs text-slate-900 dark:text-slate-200">
+                          <span className="font-semibold text-emerald-700 dark:text-emerald-300">Correct Answer:</span>{" "}
                           {currentQuestion.correctAnswer}
                         </p>
-                        <p className="text-xs text-slate-300 leading-relaxed">
-                          <span className="font-semibold text-primary-300">Explanation:</span>{" "}
+                        <p className="text-xs text-slate-800 dark:text-slate-300 leading-relaxed">
+                          <span className="font-semibold text-primary-700 dark:text-primary-300">Explanation:</span>{" "}
                           {currentQuestion.explanation}
                         </p>
                       </div>
