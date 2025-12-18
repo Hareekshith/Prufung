@@ -123,13 +123,13 @@ const App: React.FC = () => {
   const isMCQ = currentQuestion?.type === "multiple-choice";
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 text-slate-900 dark:text-slate-50 transition-colors duration-200">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50/30 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 text-slate-900 dark:text-slate-50 transition-colors duration-200">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-6 sm:py-10">
         {/* Header */}
         <header className="mb-6 sm:mb-10">
           <div className="flex items-center justify-between mb-2">
             <div className="flex items-center gap-3">
-              <div className="h-10 w-10 rounded-2xl bg-gradient-to-br from-primary-500 to-accent-500 flex items-center justify-center shadow-lg shadow-primary-500/40">
+              <div className="h-10 w-10 rounded-2xl bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-600 flex items-center justify-center shadow-lg shadow-purple-500/50">
                 <Brain className="w-6 h-6 text-white" />
               </div>
               <div>
@@ -143,23 +143,23 @@ const App: React.FC = () => {
             </div>
             <button
               onClick={toggleTheme}
-              className="p-2.5 rounded-xl bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-700 transition-colors duration-200"
+              className="p-2.5 rounded-xl bg-gradient-to-br from-amber-100 to-orange-100 dark:from-slate-800 dark:to-slate-700 hover:from-amber-200 hover:to-orange-200 dark:hover:from-slate-700 dark:hover:to-slate-600 border border-amber-300 dark:border-slate-700 transition-all duration-200 shadow-sm"
               aria-label="Toggle theme"
             >
               {theme === "dark" ? (
-                <Sun className="w-5 h-5 text-slate-700 dark:text-slate-200" />
+                <Sun className="w-5 h-5 text-amber-600 dark:text-amber-400" />
               ) : (
                 <Moon className="w-5 h-5 text-slate-700 dark:text-slate-200" />
               )}
             </button>
           </div>
           <div className="flex flex-wrap items-center gap-2 text-xs text-slate-700 dark:text-slate-400">
-            <span className="inline-flex items-center gap-1 rounded-full bg-slate-100 dark:bg-slate-900/70 border border-slate-300 dark:border-slate-700 px-3 py-1 text-slate-700 dark:text-slate-300">
-              <Sparkles className="w-3 h-3 text-primary-600 dark:text-primary-400" />
+            <span className="inline-flex items-center gap-1 rounded-full bg-gradient-to-r from-purple-100 to-pink-100 dark:from-purple-900/40 dark:to-pink-900/40 border border-purple-300 dark:border-purple-700 px-3 py-1 text-purple-800 dark:text-purple-200 font-medium shadow-sm">
+              <Sparkles className="w-3 h-3 text-purple-600 dark:text-purple-400" />
               Adaptive learning insights
             </span>
-            <span className="inline-flex items-center gap-1 rounded-full bg-slate-100 dark:bg-slate-900/70 border border-slate-300 dark:border-slate-700 px-3 py-1 text-slate-700 dark:text-slate-300">
-              <BookOpen className="w-3 h-3 text-accent-600 dark:text-accent-400" />
+            <span className="inline-flex items-center gap-1 rounded-full bg-gradient-to-r from-blue-100 to-cyan-100 dark:from-blue-900/40 dark:to-cyan-900/40 border border-blue-300 dark:border-blue-700 px-3 py-1 text-blue-800 dark:text-blue-200 font-medium shadow-sm">
+              <BookOpen className="w-3 h-3 text-blue-600 dark:text-blue-400" />
               Multiple subjects & difficulties
             </span>
           </div>
@@ -169,10 +169,10 @@ const App: React.FC = () => {
           {/* Left: controls + question */}
           <section className="flex flex-col gap-4">
             {/* Control panel */}
-            <div className="rounded-2xl bg-white dark:bg-slate-900/70 border border-slate-200 dark:border-slate-800 shadow-lg shadow-slate-200/40 dark:shadow-slate-900/40 p-4 sm:p-5 flex flex-col gap-4">
+            <div className="rounded-2xl bg-gradient-to-br from-white via-indigo-50/30 to-white dark:from-slate-900/90 dark:via-slate-800/50 dark:to-slate-900/90 border border-indigo-200/50 dark:border-slate-800 shadow-lg shadow-indigo-200/20 dark:shadow-slate-900/40 p-4 sm:p-5 flex flex-col gap-4">
               <div className="flex items-center justify-between gap-3">
                 <div>
-                  <p className="text-xs font-semibold text-slate-700 dark:text-slate-400 uppercase tracking-wide">
+                  <p className="text-xs font-semibold text-indigo-700 dark:text-indigo-400 uppercase tracking-wide">
                     Session Controls
                   </p>
                   <p className="text-sm text-slate-800 dark:text-slate-300">
@@ -180,7 +180,7 @@ const App: React.FC = () => {
                   </p>
                 </div>
                 <BarChart3
-                  className="w-5 h-5 text-slate-700 dark:text-slate-400 cursor-pointer hover:text-primary-600 dark:hover:text-primary-300 transition"
+                  className="w-5 h-5 text-indigo-600 dark:text-indigo-400 cursor-pointer hover:text-purple-600 dark:hover:text-purple-400 transition transform hover:scale-110"
                   onClick={() => setShowAnalytics((prev) => !prev)}
                 />
               </div>
@@ -188,14 +188,14 @@ const App: React.FC = () => {
               <div className="grid sm:grid-cols-2 gap-4">
                 {/* Subject */}
                 <div className="flex flex-col gap-2">
-                  <label className="text-xs font-semibold text-slate-800 dark:text-slate-300 uppercase tracking-wide">
+                  <label className="text-xs font-semibold text-indigo-700 dark:text-indigo-300 uppercase tracking-wide">
                     Subject
                   </label>
                   <div className="relative">
                     <select
                       value={subject}
                       onChange={(e) => setSubject(e.target.value)}
-                      className="w-full rounded-xl bg-white dark:bg-slate-950/70 border border-slate-300 dark:border-slate-700/80 px-3 py-2.5 text-sm text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-primary-500/70 focus:border-primary-500 dark:focus:border-primary-400 transition"
+                      className="w-full rounded-xl bg-white dark:bg-slate-950/70 border-2 border-blue-200 dark:border-slate-700/80 px-3 py-2.5 text-sm text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 dark:focus:border-blue-400 transition shadow-sm"
                     >
                       {subjects.map((s) => (
                         <option key={s} value={s}>
@@ -209,7 +209,7 @@ const App: React.FC = () => {
 
                 {/* Difficulty */}
                 <div className="flex flex-col gap-2">
-                  <label className="text-xs font-semibold text-slate-800 dark:text-slate-300 uppercase tracking-wide">
+                  <label className="text-xs font-semibold text-indigo-700 dark:text-indigo-300 uppercase tracking-wide">
                     Difficulty
                   </label>
                   <div className="grid grid-cols-3 gap-2">
@@ -221,10 +221,10 @@ const App: React.FC = () => {
                           type="button"
                           onClick={() => setDifficulty(level)}
                           className={[
-                            "text-xs font-medium rounded-xl px-2.5 py-2 border transition flex items-center justify-center",
+                            "text-xs font-medium rounded-xl px-2.5 py-2 border-2 transition flex items-center justify-center",
                             isActive
-                              ? "bg-primary-600 text-white border-primary-500 dark:border-primary-400 shadow-md shadow-primary-500/40"
-                              : "bg-white dark:bg-slate-950/60 text-slate-800 dark:text-slate-300 border-slate-300 dark:border-slate-700 hover:border-primary-500 hover:bg-primary-50 dark:hover:bg-slate-900/80 hover:text-primary-700 dark:hover:text-primary-100",
+                              ? "bg-gradient-to-br from-indigo-600 to-purple-600 text-white border-indigo-500 dark:border-indigo-400 shadow-lg shadow-indigo-500/50"
+                              : "bg-white dark:bg-slate-950/60 text-slate-800 dark:text-slate-300 border-slate-300 dark:border-slate-700 hover:border-purple-400 hover:bg-gradient-to-br hover:from-purple-50 hover:to-indigo-50 dark:hover:bg-slate-900/80 hover:text-purple-700 dark:hover:text-purple-100 shadow-sm",
                           ].join(" ")}
                         >
                           {difficultyLabels[level]}
@@ -243,7 +243,7 @@ const App: React.FC = () => {
                   type="button"
                   onClick={handleGenerateQuestion}
                   disabled={isGenerating}
-                  className="inline-flex items-center justify-center rounded-xl bg-gradient-to-r from-primary-500 to-primary-600 text-sm font-semibold px-4 py-2.5 text-white shadow-lg shadow-primary-500/40 hover:from-primary-400 hover:to-primary-500 transition disabled:opacity-60 disabled:cursor-not-allowed"
+                  className="inline-flex items-center justify-center rounded-xl bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 text-sm font-semibold px-4 py-2.5 text-white shadow-lg shadow-purple-500/50 hover:from-indigo-500 hover:via-purple-500 hover:to-pink-500 hover:shadow-xl hover:shadow-purple-500/60 transition-all duration-200 disabled:opacity-60 disabled:cursor-not-allowed transform hover:scale-105 disabled:transform-none"
                 >
                   {isGenerating ? (
                     <>
@@ -261,10 +261,10 @@ const App: React.FC = () => {
             </div>
 
             {/* Question & answer panel */}
-            <div className="rounded-2xl bg-white dark:bg-slate-950/70 border border-slate-200 dark:border-slate-800 shadow-xl shadow-slate-200/40 dark:shadow-slate-950/40 p-4 sm:p-5 flex flex-col gap-4">
+            <div className="rounded-2xl bg-gradient-to-br from-white via-teal-50/20 to-cyan-50/20 dark:from-slate-950/90 dark:via-slate-800/50 dark:to-slate-950/90 border border-teal-200/50 dark:border-slate-800 shadow-xl shadow-teal-200/20 dark:shadow-slate-950/40 p-4 sm:p-5 flex flex-col gap-4">
               <div className="flex items-center justify-between gap-2">
                 <div>
-                  <p className="text-xs font-semibold text-slate-700 dark:text-slate-400 uppercase tracking-wide">
+                  <p className="text-xs font-semibold text-teal-700 dark:text-teal-400 uppercase tracking-wide">
                     Active Question
                   </p>
                   <p className="text-sm text-slate-800 dark:text-slate-300">
@@ -284,28 +284,28 @@ const App: React.FC = () => {
               </div>
 
               {error && (
-                <div className="rounded-xl border border-red-500 dark:border-red-500/40 bg-red-50 dark:bg-red-950/40 px-3 py-2 text-xs text-red-800 dark:text-red-200 font-medium">
+                <div className="rounded-xl border-2 border-red-400 dark:border-red-500/40 bg-gradient-to-r from-red-50 to-rose-50 dark:from-red-950/40 dark:to-rose-950/40 px-3 py-2 text-xs text-red-800 dark:text-red-200 font-semibold shadow-md">
                   {error}
                 </div>
               )}
 
               {!currentQuestion ? (
-                <div className="rounded-2xl border border-dashed border-slate-300 dark:border-slate-700/80 bg-slate-50 dark:bg-slate-900/40 p-4 flex flex-col items-center justify-center text-center gap-3">
-                  <BookOpen className="w-9 h-9 text-slate-500 dark:text-slate-500" />
-                  <p className="text-sm font-medium text-slate-800 dark:text-slate-200">
+                <div className="rounded-2xl border-2 border-dashed border-cyan-300 dark:border-slate-700/80 bg-gradient-to-br from-cyan-50 via-blue-50 to-indigo-50 dark:from-slate-900/40 dark:via-slate-800/40 dark:to-slate-900/40 p-4 flex flex-col items-center justify-center text-center gap-3">
+                  <BookOpen className="w-9 h-9 text-cyan-500 dark:text-slate-500" />
+                  <p className="text-sm font-semibold text-cyan-800 dark:text-slate-200">
                     Ready to start practicing?
                   </p>
-                  <p className="text-xs text-slate-700 dark:text-slate-400 max-w-md">
+                  <p className="text-xs text-cyan-700 dark:text-slate-400 max-w-md">
                     Select a subject and difficulty, then click{" "}
-                    <span className="font-semibold text-primary-600 dark:text-primary-300">Generate Question</span> to begin your
+                    <span className="font-bold text-indigo-600 dark:text-indigo-300">Generate Question</span> to begin your
                     personalized exam prep session.
                   </p>
                 </div>
               ) : (
                 <>
                   {/* Question */}
-                  <div className="rounded-2xl bg-slate-50 dark:bg-slate-900/70 border border-slate-200 dark:border-slate-800 p-4 flex flex-col gap-2">
-                    <p className="text-xs font-semibold text-primary-600 dark:text-primary-300 uppercase tracking-wide">
+                  <div className="rounded-2xl bg-gradient-to-br from-blue-50 to-cyan-50 dark:from-slate-900/70 dark:to-slate-800/50 border-2 border-blue-200 dark:border-slate-800 p-4 flex flex-col gap-2 shadow-sm">
+                    <p className="text-xs font-semibold text-blue-700 dark:text-blue-300 uppercase tracking-wide">
                       Question
                     </p>
                     <p className="text-sm sm:text-base text-slate-900 dark:text-slate-50 leading-relaxed font-medium">
@@ -315,7 +315,7 @@ const App: React.FC = () => {
 
                   {/* Answer */}
                   <div className="flex flex-col gap-3">
-                    <p className="text-xs font-semibold text-slate-800 dark:text-slate-300 uppercase tracking-wide">
+                    <p className="text-xs font-semibold text-cyan-700 dark:text-cyan-300 uppercase tracking-wide">
                       Your Answer
                     </p>
                     {isMCQ ? (
@@ -339,12 +339,12 @@ const App: React.FC = () => {
                               className={[
                                 "w-full text-left rounded-xl border px-3 py-2.5 text-sm transition",
                                 isCorrectSelected
-                                  ? "border-emerald-500 dark:border-emerald-400 bg-emerald-50 dark:bg-emerald-950/50 text-emerald-900 dark:text-emerald-100"
+                                  ? "border-emerald-500 dark:border-emerald-400 bg-gradient-to-br from-emerald-50 to-green-50 dark:from-emerald-950/50 dark:to-green-950/30 text-emerald-900 dark:text-emerald-100 shadow-lg shadow-emerald-500/30"
                                   : isIncorrectSelected
-                                  ? "border-red-500 dark:border-red-400 bg-red-50 dark:bg-red-950/40 text-red-900 dark:text-red-100"
+                                  ? "border-red-500 dark:border-red-400 bg-gradient-to-br from-red-50 to-rose-50 dark:from-red-950/40 dark:to-rose-950/30 text-red-900 dark:text-red-100 shadow-lg shadow-red-500/30"
                                   : isSelected
-                                  ? "border-primary-400 bg-primary-50 dark:bg-primary-950/40 text-primary-900 dark:text-primary-100 shadow-md shadow-primary-500/30"
-                                  : "border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-950/40 text-slate-900 dark:text-slate-100 hover:border-primary-400/80 hover:bg-slate-50 dark:hover:bg-slate-900/80",
+                                  ? "border-purple-400 bg-gradient-to-br from-purple-50 to-indigo-50 dark:from-purple-950/40 dark:to-indigo-950/40 text-purple-900 dark:text-purple-100 shadow-md shadow-purple-500/30"
+                                  : "border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-950/40 text-slate-900 dark:text-slate-100 hover:border-cyan-400 hover:bg-gradient-to-br hover:from-cyan-50 hover:to-blue-50 dark:hover:bg-slate-900/80 shadow-sm",
                               ].join(" ")}
                             >
                               {opt}
@@ -357,7 +357,7 @@ const App: React.FC = () => {
                         value={textAnswer}
                         onChange={(e) => setTextAnswer(e.target.value)}
                         rows={4}
-                        className="w-full rounded-xl bg-white dark:bg-slate-950/70 border border-slate-300 dark:border-slate-700/80 px-3 py-2.5 text-sm text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-primary-500/70 focus:border-primary-500 dark:focus:border-primary-400 transition resize-none"
+                        className="w-full rounded-xl bg-white dark:bg-slate-950/70 border-2 border-cyan-200 dark:border-slate-700/80 px-3 py-2.5 text-sm text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500 dark:focus:border-cyan-400 transition resize-none shadow-sm"
                         placeholder="Explain your answer clearly and concisely..."
                       />
                     )}
@@ -369,7 +369,7 @@ const App: React.FC = () => {
                       type="button"
                       onClick={handleSubmitAnswer}
                       disabled={isSubmitting || !currentQuestion}
-                      className="inline-flex items-center justify-center rounded-xl bg-accent-600 text-sm font-semibold px-4 py-2.5 text-white shadow-lg shadow-emerald-500/40 hover:bg-accent-500 transition disabled:opacity-60 disabled:cursor-not-allowed"
+                      className="inline-flex items-center justify-center rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 text-sm font-semibold px-4 py-2.5 text-white shadow-lg shadow-emerald-500/50 hover:from-emerald-500 hover:to-teal-500 hover:shadow-xl hover:shadow-emerald-500/60 transition-all duration-200 disabled:opacity-60 disabled:cursor-not-allowed transform hover:scale-105 disabled:transform-none"
                     >
                       {isSubmitting ? (
                         <>
@@ -388,7 +388,7 @@ const App: React.FC = () => {
                       type="button"
                       onClick={handleNextQuestion}
                       disabled={isGenerating || !currentQuestion}
-                      className="inline-flex items-center justify-center rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900/70 text-sm font-medium px-4 py-2.5 text-slate-800 dark:text-slate-100 hover:border-primary-500 hover:text-primary-700 dark:hover:text-primary-100 hover:bg-slate-50 dark:hover:bg-slate-900 transition disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="inline-flex items-center justify-center rounded-xl border-2 border-amber-300 dark:border-slate-700 bg-gradient-to-br from-amber-50 to-orange-50 dark:from-slate-900/70 dark:to-slate-800/70 text-sm font-medium px-4 py-2.5 text-amber-800 dark:text-slate-100 hover:border-amber-400 hover:text-amber-900 dark:hover:text-amber-100 hover:from-amber-100 hover:to-orange-100 dark:hover:bg-slate-900 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-sm hover:shadow-md"
                     >
                       Next Question
                     </button>
@@ -397,39 +397,42 @@ const App: React.FC = () => {
                   {/* Evaluation */}
                   {evaluation && (
                     <div className="mt-1 grid md:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] gap-3">
-                      <div className="rounded-2xl bg-slate-50 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 p-3 sm:p-4 flex flex-col gap-2">
+                      <div className="rounded-2xl bg-gradient-to-br from-green-50 to-emerald-50 dark:from-emerald-950/60 dark:to-green-950/60 border-2 border-emerald-200 dark:border-emerald-800/50 p-3 sm:p-4 flex flex-col gap-2 shadow-md">
                         <div className="flex items-center justify-between">
-                          <p className="text-xs font-semibold text-slate-800 dark:text-slate-300 uppercase tracking-wide">
+                          <p className="text-xs font-semibold text-emerald-800 dark:text-emerald-300 uppercase tracking-wide">
                             Evaluation
                           </p>
                           <span
                             className={[
-                              "inline-flex items-center rounded-full px-2.5 py-1 text-[11px] font-semibold border",
+                              "inline-flex items-center rounded-full px-2.5 py-1 text-[11px] font-semibold border-2 shadow-sm",
                               evaluation.isCorrect
-                                ? "bg-emerald-50 dark:bg-emerald-950/60 border-emerald-600 dark:border-emerald-500/70 text-emerald-800 dark:text-emerald-100"
-                                : "bg-red-50 dark:bg-red-950/60 border-red-600 dark:border-red-500/70 text-red-800 dark:text-red-100",
+                                ? "bg-gradient-to-r from-emerald-400 to-green-400 dark:from-emerald-700 dark:to-green-700 border-emerald-500 dark:border-emerald-500 text-white dark:text-emerald-100"
+                                : "bg-gradient-to-r from-red-400 to-rose-400 dark:from-red-700 dark:to-rose-700 border-red-500 dark:border-red-500 text-white dark:text-red-100",
                             ].join(" ")}
                           >
                             {evaluation.isCorrect ? "Correct" : "Incorrect"}
                           </span>
                         </div>
                         <p className="text-sm text-slate-900 dark:text-slate-200 font-medium">{evaluation.feedback}</p>
-                        <p className="text-xs text-slate-700 dark:text-slate-400">
+                        <p className="text-xs text-emerald-700 dark:text-emerald-400">
                           Score:{" "}
-                          <span className="font-semibold text-primary-700 dark:text-primary-300">
+                          <span className="font-bold text-indigo-700 dark:text-indigo-300 text-sm">
                             {evaluation.score}/100
                           </span>
                         </p>
                       </div>
 
-                      <div className="rounded-2xl bg-slate-50 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 p-3 sm:p-4 flex flex-col gap-2">
-                        <p className="text-xs font-semibold text-slate-800 dark:text-slate-300 uppercase tracking-wide">
+                      <div className="rounded-2xl bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-950/60 dark:to-pink-950/60 border-2 border-purple-200 dark:border-purple-800/50 p-3 sm:p-4 flex flex-col gap-2 shadow-md">
+                        <p className="text-xs font-semibold text-purple-800 dark:text-purple-300 uppercase tracking-wide">
                           Insights
                         </p>
                         {evaluation.strengths.length > 0 && (
                           <div className="text-xs text-slate-900 dark:text-slate-200">
-                            <p className="font-semibold text-emerald-700 dark:text-emerald-300 mb-1">Strengths</p>
-                            <ul className="list-disc list-inside space-y-0.5 text-slate-800 dark:text-slate-300">
+                            <p className="font-bold text-emerald-700 dark:text-emerald-300 mb-1 flex items-center gap-1">
+                              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                              Strengths
+                            </p>
+                            <ul className="list-disc list-inside space-y-0.5 text-slate-800 dark:text-slate-300 ml-2">
                               {evaluation.strengths.map((item) => (
                                 <li key={item}>{item}</li>
                               ))}
@@ -438,8 +441,11 @@ const App: React.FC = () => {
                         )}
                         {evaluation.improvements.length > 0 && (
                           <div className="text-xs text-slate-900 dark:text-slate-200">
-                            <p className="font-semibold text-amber-700 dark:text-amber-300 mb-1">Focus Areas</p>
-                            <ul className="list-disc list-inside space-y-0.5 text-slate-800 dark:text-slate-300">
+                            <p className="font-bold text-amber-700 dark:text-amber-300 mb-1 flex items-center gap-1">
+                              <span className="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+                              Focus Areas
+                            </p>
+                            <ul className="list-disc list-inside space-y-0.5 text-slate-800 dark:text-slate-300 ml-2">
                               {evaluation.improvements.map((item) => (
                                 <li key={item}>{item}</li>
                               ))}
@@ -448,16 +454,16 @@ const App: React.FC = () => {
                         )}
                       </div>
 
-                      <div className="md:col-span-2 rounded-2xl bg-slate-100 dark:bg-slate-950/80 border border-slate-200 dark:border-slate-800 p-3 sm:p-4 flex flex-col gap-1.5">
-                        <p className="text-xs font-semibold text-slate-800 dark:text-slate-300 uppercase tracking-wide">
+                      <div className="md:col-span-2 rounded-2xl bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-blue-950/60 dark:via-indigo-950/60 dark:to-purple-950/60 border-2 border-indigo-200 dark:border-indigo-800/50 p-3 sm:p-4 flex flex-col gap-1.5 shadow-md">
+                        <p className="text-xs font-semibold text-indigo-800 dark:text-indigo-300 uppercase tracking-wide">
                           Correct Answer & Explanation
                         </p>
                         <p className="text-xs text-slate-900 dark:text-slate-200">
-                          <span className="font-semibold text-emerald-700 dark:text-emerald-300">Correct Answer:</span>{" "}
+                          <span className="font-bold text-emerald-700 dark:text-emerald-300">Correct Answer:</span>{" "}
                           {currentQuestion.correctAnswer}
                         </p>
                         <p className="text-xs text-slate-800 dark:text-slate-300 leading-relaxed">
-                          <span className="font-semibold text-primary-700 dark:text-primary-300">Explanation:</span>{" "}
+                          <span className="font-bold text-indigo-700 dark:text-indigo-300">Explanation:</span>{" "}
                           {currentQuestion.explanation}
                         </p>
                       </div>
