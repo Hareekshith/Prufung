@@ -45,28 +45,6 @@ const App: React.FC = () => {
     [cumulativeScore, totalQuestions],
   );
 
-  const handleGenerateQuestion = async () => {
-    setIsGenerating(true);
-    setError(null);
-    setEvaluation(null);
-    setSelectedOption(null);
-    setTextAnswer("");
-    setAnswerMode("idle");
-
-    try {
-      const response = await axios.post<QuestionResponse>(`${API_BASE_URL}/generate-question`, {
-        subject,
-        difficulty,
-      });
-      setCurrentQuestion(response.data);
-    } catch (err) {
-      console.error(err);
-      setError("Unable to generate a question right now. Please try again.");
-    } finally {
-      setIsGenerating(false);
-    }
-  };
-
   const handleSubmitAnswer = async () => {
     if (!currentQuestion) return;
 
@@ -85,31 +63,55 @@ const App: React.FC = () => {
     setAnswerMode("submitting");
 
     try {
+      // Logic aligns with interface EvaluationRequest { question, correctAnswer, studentAnswer }
       const response = await axios.post<EvaluationResponse>(`${API_BASE_URL}/evaluate-answer`, {
-        question: currentQuestion.question,
+        question: currentQuestion.question, 
         correctAnswer: currentQuestion.correctAnswer,
-        studentAnswer,
+        studentAnswer: studentAnswer,
       });
 
       setEvaluation(response.data);
       setAnswerMode("evaluated");
 
-      const newTotal = totalQuestions + 1;
-      const newCorrect = response.data.isCorrect ? correctAnswers + 1 : correctAnswers;
-      const newCumulative = cumulativeScore + response.data.score;
+      // Update Analytics for Performance Insights
+      setTotalQuestions(prev => prev + 1);
+      if (response.data.isCorrect) setCorrectAnswers(prev => prev + 1);
+      setCumulativeScore(prev => prev + response.data.score);
 
-      setTotalQuestions(newTotal);
-      setCorrectAnswers(newCorrect);
-      setCumulativeScore(newCumulative);
     } catch (err) {
       console.error(err);
-      setError("Unable to evaluate your answer right now. Please try again.");
+      setError("Sync Error: Ensure Backend models.py matches api.ts exactly.");
       setAnswerMode("idle");
     } finally {
       setIsSubmitting(false);
     }
   };
 
+  const handleGenerateQuestion = async () => {
+    setIsGenerating(true);
+    setError(null);
+    setEvaluation(null);
+    setSelectedOption(null);
+    setTextAnswer("");
+    setAnswerMode("idle");
+
+    try {
+      // FULL SOLUTION OBJECTIVE: Adaptive Difficulty Adjustment
+      // If average score is > 80, automatically bump difficulty to 'hard'
+      const adaptiveDifficulty = averageScore > 80 ? "hard" : difficulty;
+
+      const response = await axios.post<QuestionResponse>(`${API_BASE_URL}/generate-question`, {
+        subject: subject,
+        difficulty: adaptiveDifficulty,
+      });
+      setCurrentQuestion(response.data);
+    } catch (err) {
+      console.error(err);
+      setError("Failed to generate question. Check Backend logs for IndentationErrors.");
+    } finally {
+      setIsGenerating(false);
+    }
+  };
   const handleNextQuestion = () => {
     setCurrentQuestion(null);
     setSelectedOption(null);

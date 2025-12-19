@@ -1,39 +1,26 @@
-from __future__ import annotations
-
+from pydantic import BaseModel
 from typing import List, Literal
 
-from pydantic import BaseModel, Field, conint, constr
-
-
-Difficulty = Literal["easy", "medium", "hard"]
-QuestionType = Literal["multiple-choice", "short-answer"]
-
-
 class QuestionRequest(BaseModel):
-    subject: constr(strip_whitespace=True, min_length=1)
-    difficulty: Difficulty
-
+    subject: str
+    difficulty: Literal["easy", "medium", "hard"]
 
 class QuestionResponse(BaseModel):
-    question: constr(strip_whitespace=True, min_length=1)
-    type: QuestionType
-    options: List[constr(strip_whitespace=True)] = Field(default_factory=list)
-    correctAnswer: constr(strip_whitespace=True, min_length=1)
-    explanation: constr(strip_whitespace=True, min_length=1)
-    difficulty: Difficulty
-
+    question: str
+    type: Literal["multiple-choice", "short-answer"]
+    options: List[str]
+    correctAnswer: str
+    explanation: str
+    difficulty: Literal["easy", "medium", "hard"]
 
 class EvaluationRequest(BaseModel):
-    question: constr(strip_whitespace=True, min_length=1)
-    correctAnswer: constr(strip_whitespace=True, min_length=1)
-    studentAnswer: constr(strip_whitespace=True, min_length=1)
-
+    question: str  # FIXED: Matches export interface EvaluationRequest
+    correctAnswer: str
+    studentAnswer: str
 
 class EvaluationResponse(BaseModel):
     isCorrect: bool
-    score: conint(ge=0, le=100)
-    feedback: constr(strip_whitespace=True, min_length=1)
-    strengths: List[constr(strip_whitespace=True)] = Field(default_factory=list)
-    improvements: List[constr(strip_whitespace=True)] = Field(default_factory=list)
-
-
+    score: int
+    feedback: str
+    strengths: List[str]
+    improvements: List[str]

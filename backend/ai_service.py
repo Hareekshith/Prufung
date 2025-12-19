@@ -32,13 +32,10 @@ class AIService:
     def evaluate_answer(self, payload: EvaluationRequest) -> EvaluationResponse:
     # Use a prompt focused on grading the student's specific answer
 	    prompt = f"""
-	    You are an expert academic grader. 
-	    Compare the student's answer to the correct reference and provide a score.
-	    
-	    Question: {payload.questionText}
-	    Correct Answer: {payload.correctAnswer}
-	    Student's Answer: {payload.studentAnswer}
-	    """
+        Question: {payload.question}
+        Correct: {payload.correctAnswer}
+        Student: {payload.studentAnswer}
+        """
 	    
 	    try:
 	        response = self.client.models.generate_content(

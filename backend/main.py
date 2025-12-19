@@ -1,57 +1,50 @@
-from __future__ import annotations
-
-from typing import Any, Dict
-
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Body
 from fastapi.middleware.cors import CORSMiddleware
-
 from ai_service import AIService, AIServiceError
-from models import (
-    EvaluationRequest,
-    EvaluationResponse,
-    QuestionRequest,
-    QuestionResponse,
-)
+from models import QuestionRequest, EvaluationRequest
 
+app = FastAPI(title="DSARG_8 AI Exam Assistant")
 
-app = FastAPI(title="AI Exam Preparation Assistant API")
-
-# Configure CORS for development; adjust in production as needed.
+# ENABLE CORS: Essential so your React App (App.tsx) can talk to this Backend
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # In production, set to specific frontend origin.
-    allow_credentials=True,
+    allow_origins=["*"],  # In a hackathon, allow all; in production, restrict this
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
 ai_service = AIService()
 
-
-@app.post("/generate-question", response_model=QuestionResponse)
-async def generate_question(request: QuestionRequest) -> QuestionResponse:
+@app.post("/generate-question")
+async def generate_q(request: QuestionRequest):
+    """
+    Fulfills Prototype Objective: Generate practice questions.
+    Uses Gemini-based generation.
+    """
     try:
-        question = ai_service.generate_question(request)
-        return question
-    except AIServiceError as exc:
-        raise HTTPException(status_code=502, detail=str(exc)) from exc
-    except Exception as exc:  # pragma: no cover - safety net
-        raise HTTPException(status_code=500, detail="Internal server error") from exc
+        return ai_service.generate_question(request)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
-
-@app.post("/evaluate-answer", response_model=EvaluationResponse)
-async def evaluate_answer(request: EvaluationRequest) -> EvaluationResponse:
+@app.post("/evaluate-answer")
+async def evaluate_a(payload: dict = Body(...)):
+    """
+    Fulfills Prototype Objective: Evaluate student responses.
+    Maps React key 'question' to Backend 'questionText' to prevent 422 errors.
+    """
     try:
-        evaluation = ai_service.evaluate_answer(request)
-        return evaluation
-    except AIServiceError as exc:
-        raise HTTPException(status_code=502, detail=str(exc)) from exc
-    except Exception as exc:  # pragma: no cover - safety net
-        raise HTTPException(status_code=500, detail="Internal server error") from exc
+        # Manual mapping ensures compatibility with App.tsx
+        request_data = EvaluationRequest(
+            questionText=payload.get("question"),
+            correctAnswer=payload.get("correctAnswer"),
+            studentAnswer=payload.get("studentAnswer")
+        )
+        return ai_service.evaluate_answer(request_data)
+    except Exception as e:
+        print(f"Evaluation failed: {e}")
+        # Return 422 if data is missing, 500 if AI fails
+        raise HTTPException(status_code=422, detail="Missing fields or AI error")
 
-
-@app.get("/health", response_model=Dict[str, Any])
-async def health_check() -> Dict[str, Any]:
-    return {"status": "ok"}
-
-
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=8000)
