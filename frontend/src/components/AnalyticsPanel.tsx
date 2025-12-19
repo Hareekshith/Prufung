@@ -1,18 +1,37 @@
 import { Brain, BarChart3, Target, Activity } from "lucide-react";
-import React from "react";
+import React, { useMemo } from "react";
+import {
+  Radar,
+  RadarChart,
+  PolarGrid,
+  PolarAngleAxis,
+  PolarRadiusAxis,
+  ResponsiveContainer,
+} from "recharts";
 
 interface AnalyticsPanelProps {
   totalQuestions: number;
   correctAnswers: number;
   averageScore: number;
+  subjectStats: Record<string, { total: number; correct: number }>;
 }
 
 export const AnalyticsPanel: React.FC<AnalyticsPanelProps> = ({
   totalQuestions,
   correctAnswers,
   averageScore,
+  subjectStats,
 }) => {
   const accuracy = totalQuestions > 0 ? (correctAnswers / totalQuestions) * 100 : 0;
+
+  const radarData = useMemo(
+    () =>
+      Object.entries(subjectStats).map(([subject, stats]) => ({
+        subject,
+        accuracy: stats.total > 0 ? (stats.correct / stats.total) * 100 : 0,
+      })),
+    [subjectStats],
+  );
 
   let adaptiveRecommendation = "Keep practicing at your current level.";
   if (accuracy > 85 && averageScore > 85) {
@@ -82,6 +101,41 @@ export const AnalyticsPanel: React.FC<AnalyticsPanelProps> = ({
             </p>
           </div>
         </div>
+      </div>
+
+      {/* Subject-wise accuracy radar chart */}
+      <div className="mt-2 rounded-xl bg-gradient-to-br from-slate-900/5 via-purple-100/60 to-sky-100/60 dark:from-slate-950/80 dark:via-slate-900/80 dark:to-slate-950/80 border-2 border-slate-200/60 dark:border-slate-800 px-3 py-3 shadow-md">
+        <p className="text-xs font-bold text-slate-900 dark:text-slate-100 tracking-wide uppercase mb-2 flex items-center gap-1">
+          <BarChart3 className="w-3.5 h-3.5 text-sky-600 dark:text-sky-400" />
+          Subject Accuracy Radar
+        </p>
+        {radarData.every((d) => d.accuracy === 0) ? (
+          <p className="text-[11px] text-slate-700 dark:text-slate-400">
+            Answer a few questions in different subjects to see your subject-wise strengths visualized here.
+          </p>
+        ) : (
+          <div className="h-48">
+            <ResponsiveContainer width="100%" height="100%">
+              <RadarChart data={radarData}>
+                <PolarGrid strokeOpacity={0.4} />
+                <PolarAngleAxis dataKey="subject" tick={{ fontSize: 10 }} />
+                <PolarRadiusAxis
+                  angle={30}
+                  domain={[0, 100]}
+                  tick={{ fontSize: 9 }}
+                  tickFormatter={(v) => `${v}%`}
+                />
+                <Radar
+                  name="Accuracy"
+                  dataKey="accuracy"
+                  stroke="#6366f1"
+                  fill="#6366f1"
+                  fillOpacity={0.45}
+                />
+              </RadarChart>
+            </ResponsiveContainer>
+          </div>
+        )}
       </div>
     </div>
   );

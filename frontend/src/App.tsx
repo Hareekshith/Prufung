@@ -40,6 +40,18 @@ const App: React.FC = () => {
   const [correctAnswers, setCorrectAnswers] = useState<number>(0);
   const [cumulativeScore, setCumulativeScore] = useState<number>(0);
 
+  const [subjectStats, setSubjectStats] = useState<
+    Record<string, { total: number; correct: number }>
+  >(() =>
+    subjects.reduce(
+      (acc, subj) => ({
+        ...acc,
+        [subj]: { total: 0, correct: 0 },
+      }),
+      {} as Record<string, { total: number; correct: number }>,
+    ),
+  );
+
   const averageScore = useMemo(
     () => (totalQuestions > 0 ? cumulativeScore / totalQuestions : 0),
     [cumulativeScore, totalQuestions],
@@ -74,9 +86,23 @@ const App: React.FC = () => {
       setAnswerMode("evaluated");
 
       // Update Analytics for Performance Insights
-      setTotalQuestions(prev => prev + 1);
-      if (response.data.isCorrect) setCorrectAnswers(prev => prev + 1);
-      setCumulativeScore(prev => prev + response.data.score);
+      setTotalQuestions((prev) => prev + 1);
+      if (response.data.isCorrect) setCorrectAnswers((prev) => prev + 1);
+      setCumulativeScore((prev) => prev + response.data.score);
+
+      // Track per-subject performance for graphs / radar chart
+      setSubjectStats((prev) => {
+        const current = prev[subject] ?? { total: 0, correct: 0 };
+        const newTotal = current.total + 1;
+        const newCorrect = current.correct + (response.data.isCorrect ? 1 : 0);
+        return {
+          ...prev,
+          [subject]: {
+            total: newTotal,
+            correct: newCorrect,
+          },
+        };
+      });
 
     } catch (err) {
       console.error(err);
@@ -482,7 +508,8 @@ const App: React.FC = () => {
               <AnalyticsPanel
                 totalQuestions={totalQuestions}
                 correctAnswers={correctAnswers}
-                averageScore={averageScore}
+              averageScore={averageScore}
+              subjectStats={subjectStats}
               />
             )}
           </aside>

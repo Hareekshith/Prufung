@@ -30,14 +30,14 @@ async def generate_q(request: QuestionRequest):
 async def evaluate_a(payload: dict = Body(...)):
     """
     Fulfills Prototype Objective: Evaluate student responses.
-    Maps React key 'question' to Backend 'questionText' to prevent 422 errors.
+    Expects JSON keys: 'question', 'correctAnswer', 'studentAnswer'.
     """
     try:
         # Manual mapping ensures compatibility with App.tsx
         request_data = EvaluationRequest(
-            questionText=payload.get("question"),
+            question=payload.get("question"),
             correctAnswer=payload.get("correctAnswer"),
-            studentAnswer=payload.get("studentAnswer")
+            studentAnswer=payload.get("studentAnswer"),
         )
         return ai_service.evaluate_answer(request_data)
     except Exception as e:
